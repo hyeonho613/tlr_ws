@@ -1,1 +1,0 @@
-/home/sws/tlr_ws/build/ultralytics_ros/rosidl_cmake/rosidl_cmake-extras.cmake

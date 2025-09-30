@@ -1,1 +1,0 @@
-/home/sws/tlr_ws/build/ultralytics_ros/rosidl_typesupport_fastrtps_c/ultralytics_ros/msg/rosidl_typesupport_fastrtps_c__visibility_control.h

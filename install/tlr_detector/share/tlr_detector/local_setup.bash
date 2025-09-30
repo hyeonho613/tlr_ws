@@ -1,1 +1,0 @@
-/home/sws/tlr_ws/build/tlr_detector/ament_cmake_environment_hooks/local_setup.bash
