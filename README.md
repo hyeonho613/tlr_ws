@@ -35,6 +35,14 @@ To run the traffic light detection system, launch the main launch file:
 ros2 launch tlr_detector tlr.launch.py
 ```
 
+## 5. HSV Color Tuning
+A web-based tool is included for visually tuning color detection parameters.
+```bash
+cd tlr_ws/src/tlr_detector
+python3 tuner_backend.py
+```
+Open your browser and navigate to: http://127.0.0.1:5000
+
 ### Notes
 - This single command starts both the camera node and the YOLO detection node.
 - The first time you run the launch file, it will automatically download and install the YOLO model. This process may take up to a minute.
