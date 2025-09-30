@@ -38,3 +38,12 @@ ros2 launch tlr_detector tlr.launch.py
 ### Notes
 - This single command starts both the camera node and the YOLO detection node.
 - The first time you run the launch file, it will automatically download and install the YOLO model. This process may take up to a minute.
+
+## Acknowledgements
+
+This project is based on the following open-source projects:
+
+- **`ros2_v4l2_camera`**: Provided by Tier4, Inc.
+  - Source: [https://github.com/tier4/ros2_v4l2_camera.git](https://github.com/tier4/ros2_v4l2_camera.git)
+- **`ultralytics_ros`**: Provided by Alpaca-zip.
+  - Source: [https://github.com/Alpaca-zip/ultralytics_ros.git](https://github.com/Alpaca-zip/ultralytics_ros.git)
