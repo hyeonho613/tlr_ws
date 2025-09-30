@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HSV 색상 튜너 (Live)</title>
+    <style>
+        body { font-family: sans-serif; display: flex; justify-content: center; align-items: flex-start; padding: 2rem; background-color: #f0f0f0; }
+        .container { display: flex; gap: 2rem; }
+        .tuner-controls, .image-inspector { background: white; padding: 2rem; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+        h1, h2 { text-align: center; margin-top: 0; }
+        .color-box { width: 200px; height: 200px; margin: 1rem auto; border: 1px solid #ccc; }
+        .control-group { margin-bottom: 1rem; text-align: left; }
+        label { display: inline-block; width: 100px; }
+        input[type="range"] { width: 255px; }
+        input[type="number"] { width: 60px; }
+        #color-name { font-size: 1.5rem; font-weight: bold; margin-top: 1rem; text-align: center; }
+        .color-selector { margin-bottom: 1.5rem; text-align: center; }
+        .color-selector button { padding: 0.5rem 1rem; font-size: 1rem; border: 1px solid #ccc; background: #f9f9f9; cursor: pointer; border-radius: 4px; margin: 0 5px; }
+        .color-selector button.active { background: #007bff; color: white; border-color: #007bff; }
+        #video-stream { border: 1px solid #999; cursor: crosshair; max-width: 100%; background-color: #000; }
+        .hsv-display { margin-top: 1rem; text-align: center; font-size: 1.1rem; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="image-inspector">
+            <h2>Live HSV 추출기 (/traffic_light_image)</h2>
+            <p>영상 위에서 픽셀을 클릭하면<br>오른쪽 튜너에 HSV 값이 적용됩니다.</p>
+            <div class="hsv-display" id="pixel-hsv-display">H: -, S: -, V: -</div>
+            <img id="video-stream" src="/video_feed" width="400" />
+            <canvas id="hidden-canvas" style="display:none;"></canvas>
+        </div>
+        <div class="tuner-controls">
+            <h1>HSV 색상 튜너</h1>
+            <div class="color-selector">
+                <button id="btn-red" class="active">빨간색 (Red)</button>
+                <button id="btn-yellow">노란색 (Yellow)</button>
+                <button id="btn-green">초록색 (Green)</button>
+            </div>
+            <div class="color-box" id="color-box"></div>
+            <div id="color-name"></div>
+            <div class="control-group">
+                <label>Hue (색상)</label>
+                <input type="range" id="h-slider" min="0" max="179" value="0">
+                <input type="number" id="h-value" min="0" max="179" value="0">
+            </div>
+            <div class="control-group">
+                <label>Saturation (채도)</label>
+                <input type="range" id="s-slider" min="0" max="255" value="100">
+                <input type="number" id="s-value" min="0" max="255" value="100">
+            </div>
+            <div class="control-group">
+                <label>Value (명도)</label>
+                <input type="range" id="v-slider" min="0" max="255" value="100">
+                <input type="number" id="v-value" min="0" max="255" value="100">
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- Tuner Controls ---
+        const params = {
+            red: { h_min: 0, s_min: 100, v_min: 100, h_max: 10, s_max: 255, v_max: 255 },
+            red2: { h_min: 160, s_min: 100, v_min: 100, h_max: 180, s_max: 255, v_max: 255 },
+            yellow: { h_min: 20, s_min: 100, v_min: 100, h_max: 40, s_max: 255, v_max: 255 },
+            green: { h_min: 50, s_min: 100, v_min: 100, h_max: 80, s_max: 255, v_max: 255 }
+        };
+        const hSlider = document.getElementById('h-slider'), sSlider = document.getElementById('s-slider'), vSlider = document.getElementById('v-slider');
+        const hValue = document.getElementById('h-value'), sValue = document.getElementById('s-value'), vValue = document.getElementById('v-value');
+        const colorBox = document.getElementById('color-box'), colorName = document.getElementById('color-name');
+        const btnRed = document.getElementById('btn-red'), btnYellow = document.getElementById('btn-yellow'), btnGreen = document.getElementById('btn-green');
+
+        function hsvToRgb(h, s, v) {
+            let r, g, b, i, f, p, q, t;
+            h = h * 2; s = s / 255; v = v / 255;
+            i = Math.floor(h / 60);
+            f = h / 60 - i;
+            p = v * (1 - s);
+            q = v * (1 - f * s);
+            t = v * (1 - (1 - f) * s);
+            switch (i % 6) {
+                case 0: r = v, g = t, b = p; break;
+                case 1: r = q, g = v, b = p; break;
+                case 2: r = p, g = v, b = t; break;
+                case 3: r = p, g = q, b = v; break;
+                case 4: r = t, g = p, b = v; break;
+                case 5: r = v, g = p, b = q; break;
+            }
+            return [Math.round(r * 255), Math.round(g * 255), Math.round(b * 255)];
+        }
+
+        function updateColor() {
+            const h = hSlider.value, s = sSlider.value, v = vSlider.value;
+            hValue.value = h; sValue.value = s; vValue.value = v;
+            const [r, g, b] = hsvToRgb(h, s, v);
+            colorBox.style.backgroundColor = `rgb(${r}, ${g}, ${b})`;
+            let name = '알 수 없음';
+            if ((h >= params.red.h_min && h <= params.red.h_max) || (h >= params.red2.h_min && h <= params.red2.h_max)) { name = '빨간색 (Red)'; }
+            else if (h >= params.yellow.h_min && h <= params.yellow.h_max) { name = '노란색 (Yellow)'; }
+            else if (h >= params.green.h_min && h <= params.green.h_max) { name = '초록색 (Green)'; }
+            colorName.textContent = name;
+        }
+
+        function setActiveColor(color) {
+            const config = params[color];
+            hSlider.value = config.h_min; sSlider.value = config.s_min; vSlider.value = config.v_min;
+            document.querySelectorAll('.color-selector button').forEach(btn => btn.classList.remove('active'));
+            document.getElementById(`btn-${color}`).classList.add('active');
+            updateColor();
+        }
+
+        hSlider.addEventListener('input', updateColor); sSlider.addEventListener('input', updateColor); vSlider.addEventListener('input', updateColor);
+        hValue.addEventListener('input', () => { hSlider.value = hValue.value; updateColor(); });
+        sValue.addEventListener('input', () => { sSlider.value = sValue.value; updateColor(); });
+        vValue.addEventListener('input', () => { vValue.value = vValue.value; updateColor(); });
+        btnRed.addEventListener('click', () => setActiveColor('red')); btnYellow.addEventListener('click', () => setActiveColor('yellow')); btnGreen.addEventListener('click', () => setActiveColor('green'));
+        setActiveColor('red');
+
+        // --- Live Image Inspector ---
+        const videoStream = document.getElementById('video-stream');
+        const hiddenCanvas = document.getElementById('hidden-canvas');
+        const ctx = hiddenCanvas.getContext('2d', { willReadFrequently: true });
+        const pixelHsvDisplay = document.getElementById('pixel-hsv-display');
+
+        function rgbToHsv(r, g, b) {
+            r /= 255, g /= 255, b /= 255;
+            let max = Math.max(r, g, b), min = Math.min(r, g, b), h, s, v = max, d = max - min;
+            s = max == 0 ? 0 : d / max;
+            if (max == min) { h = 0; } 
+            else {
+                switch (max) {
+                    case r: h = (g - b) / d + (g < b ? 6 : 0); break;
+                    case g: h = (b - r) / d + 2; break;
+                    case b: h = (r - g) / d + 4; break;
+                }
+                h /= 6;
+            }
+            return [Math.min(179, Math.round(h * 180)), Math.round(s * 255), Math.round(v * 255)];
+        }
+
+        function getPixelHsv(e) {
+            // Ensure canvas is the same size as the video's intrinsic size for 1:1 pixel mapping
+            if (hiddenCanvas.width !== videoStream.naturalWidth) {
+                hiddenCanvas.width = videoStream.naturalWidth;
+                hiddenCanvas.height = videoStream.naturalHeight;
+            }
+            // Draw the current video frame to the hidden canvas
+            ctx.drawImage(videoStream, 0, 0, hiddenCanvas.width, hiddenCanvas.height);
+
+            // Calculate mouse position relative to the image's actual size
+            const rect = e.target.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            const scaleX = videoStream.naturalWidth / videoStream.clientWidth;
+            const scaleY = videoStream.naturalHeight / videoStream.clientHeight;
+            const canvasX = Math.floor(x * scaleX);
+            const canvasY = Math.floor(y * scaleY);
+
+            const pixel = ctx.getImageData(canvasX, canvasY, 1, 1).data;
+            const [h, s, v] = rgbToHsv(pixel[0], pixel[1], pixel[2]);
+            return { h, s, v };
+        }
+
+        videoStream.addEventListener('mousemove', (e) => {
+            if (!videoStream.naturalWidth) return; // Video not loaded yet
+            const { h, s, v } = getPixelHsv(e);
+            pixelHsvDisplay.textContent = `H: ${h}, S: ${s}, V: ${v}`;
+        });
+
+        videoStream.addEventListener('click', (e) => {
+            if (!videoStream.naturalWidth) return; // Video not loaded yet
+            const { h, s, v } = getPixelHsv(e);
+            hSlider.value = h; sSlider.value = s; vSlider.value = v;
+            updateColor();
+        });
+
+    </script>
+</body>
+</html>
