@@ -1,0 +1,1 @@
+/home/sws/tlr_ws/build/ultralytics_ros/rosidl_generator_py/ultralytics_ros/msg/_yolo_result_s.c

@@ -1,0 +1,59 @@
+-- Found ament_cmake: 1.3.11 (/opt/ros/humble/share/ament_cmake/cmake)
+-- Override CMake install command with custom implementation using symlinks instead of copying resources
+-- Found rclcpp: 16.0.12 (/opt/ros/humble/share/rclcpp/cmake)
+-- Found rosidl_generator_c: 3.1.6 (/opt/ros/humble/share/rosidl_generator_c/cmake)
+-- Found rosidl_adapter: 3.1.6 (/opt/ros/humble/share/rosidl_adapter/cmake)
+-- Found rosidl_generator_cpp: 3.1.6 (/opt/ros/humble/share/rosidl_generator_cpp/cmake)
+-- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+-- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+-- Found rmw_implementation_cmake: 6.1.2 (/opt/ros/humble/share/rmw_implementation_cmake/cmake)
+-- Found rmw_cyclonedds_cpp: 1.3.4 (/opt/ros/humble/share/rmw_cyclonedds_cpp/cmake)
+-- Using RMW implementation 'rmw_cyclonedds_cpp' as default
+-- Found vision_msgs: 4.1.1 (/opt/ros/humble/share/vision_msgs/cmake)
+-- Found ultralytics_ros: 0.0.0 (/home/sws/tlr_ws/install/ultralytics_ros/share/ultralytics_ros/cmake)
+-- Found cv_bridge: 3.2.1 (/opt/ros/humble/share/cv_bridge/cmake)
+-- Found autoware_adapi_v1_msgs: 0.0.0 (/home/sws/autoware/install/autoware_adapi_v1_msgs/share/autoware_adapi_v1_msgs/cmake)
+-- Found ament_lint_auto: 0.12.12 (/opt/ros/humble/share/ament_lint_auto/cmake)
+-- Added test 'cppcheck' to perform static code analysis on C / C++ code
+-- Configured cppcheck include dirs: /home/sws/tlr_ws/src/tlr_detector/include
+-- Configured cppcheck exclude dirs and/or files: 
+-- Added test 'flake8' to check Python code syntax and style conventions
+-- Added test 'lint_cmake' to check CMake code style
+-- Added test 'pep257' to check Python code against some of the docstring style conventions in PEP 257
+-- Added test 'uncrustify' to check C / C++ code style
+-- Configured uncrustify additional arguments: 
+-- Added test 'xmllint' to check XML markup files
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /home/sws/tlr_ws/build/tlr_detector
+Consolidate compiler generated dependencies of target traffic_light_mode_changer
+Consolidate compiler generated dependencies of target tlr_hsv_node
+Consolidate compiler generated dependencies of target tlr_detector_node
+Consolidate compiler generated dependencies of target launcher_node
+[ 75%] Built target tlr_hsv_node
+[ 75%] Built target launcher_node
+[ 75%] Built target traffic_light_mode_changer
+[100%] Built target tlr_detector_node
+-- Install configuration: "Release"
+-- Execute custom install script
+-- Up-to-date symlink: /home/sws/tlr_ws/install/tlr_detector/lib/tlr_detector/launcher_node
+-- Up-to-date symlink: /home/sws/tlr_ws/install/tlr_detector/lib/tlr_detector/tlr_detector_node
+-- Up-to-date symlink: /home/sws/tlr_ws/install/tlr_detector/lib/tlr_detector/tlr_hsv_node
+-- Up-to-date symlink: /home/sws/tlr_ws/install/tlr_detector/lib/tlr_detector/traffic_light_mode_changer
+-- Symlinking: /home/sws/tlr_ws/install/tlr_detector/share/tlr_detector/config/tlr_hsv_params.yaml
+-- Up-to-date symlink: /home/sws/tlr_ws/install/tlr_detector/share/tlr_detector/launch/tlr.launch.py
+-- Up-to-date symlink: /home/sws/tlr_ws/install/tlr_detector/share/ament_index/resource_index/package_run_dependencies/tlr_detector
+-- Up-to-date symlink: /home/sws/tlr_ws/install/tlr_detector/share/ament_index/resource_index/parent_prefix_path/tlr_detector
+-- Up-to-date symlink: /home/sws/tlr_ws/install/tlr_detector/share/tlr_detector/environment/ament_prefix_path.sh
+-- Up-to-date symlink: /home/sws/tlr_ws/install/tlr_detector/share/tlr_detector/environment/ament_prefix_path.dsv
+-- Up-to-date symlink: /home/sws/tlr_ws/install/tlr_detector/share/tlr_detector/environment/path.sh
+-- Up-to-date symlink: /home/sws/tlr_ws/install/tlr_detector/share/tlr_detector/environment/path.dsv
+-- Up-to-date symlink: /home/sws/tlr_ws/install/tlr_detector/share/tlr_detector/local_setup.bash
+-- Up-to-date symlink: /home/sws/tlr_ws/install/tlr_detector/share/tlr_detector/local_setup.sh
+-- Up-to-date symlink: /home/sws/tlr_ws/install/tlr_detector/share/tlr_detector/local_setup.zsh
+-- Up-to-date symlink: /home/sws/tlr_ws/install/tlr_detector/share/tlr_detector/local_setup.dsv
+-- Symlinking: /home/sws/tlr_ws/install/tlr_detector/share/tlr_detector/package.dsv
+-- Up-to-date symlink: /home/sws/tlr_ws/install/tlr_detector/share/ament_index/resource_index/packages/tlr_detector
+-- Up-to-date symlink: /home/sws/tlr_ws/install/tlr_detector/share/tlr_detector/cmake/tlr_detectorConfig.cmake
+-- Up-to-date symlink: /home/sws/tlr_ws/install/tlr_detector/share/tlr_detector/cmake/tlr_detectorConfig-version.cmake
+-- Up-to-date symlink: /home/sws/tlr_ws/install/tlr_detector/share/tlr_detector/package.xml

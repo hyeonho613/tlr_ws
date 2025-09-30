@@ -1,0 +1,1 @@
+/home/sws/tlr_ws/build/ultralytics_ros/rosidl_generator_cpp/ultralytics_ros/msg/detail/yolo_result__traits.hpp

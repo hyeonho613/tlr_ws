@@ -1,0 +1,1 @@
+/home/sws/tlr_ws/build/ultralytics_ros/rosidl_typesupport_introspection_c/ultralytics_ros/msg/detail/yolo_result__rosidl_typesupport_introspection_c.h
