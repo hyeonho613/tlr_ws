@@ -10,26 +10,14 @@ find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(vision_msgs REQUIRED)
 find_package(ultralytics_ros REQUIRED)
-find_package(cv_bridge REQUIRED)
-find_package(OpenCV REQUIRED)
-find_package(autoware_adapi_v1_msgs REQUIRED)
+find_package(std_msgs REQUIRED)
 
 # Add the include directory
 include_directories(
   include
 )
 
-# Add external_launcher_node executable
-add_executable(launcher_node
-  src/launcher_node.cpp
-)
-ament_target_dependencies(launcher_node rclcpp)
-install(TARGETS
-  launcher_node
-  DESTINATION lib/${PROJECT_NAME}
-)
-
-# Add image_processor_node executable
+# Add tlr_detector_node executable
 add_executable(tlr_detector_node
   src/tlr_detector_node.cpp
 )
@@ -37,51 +25,11 @@ ament_target_dependencies(tlr_detector_node
   rclcpp
   vision_msgs
   ultralytics_ros
-  cv_bridge
-)
-target_link_libraries(tlr_detector_node
-  ${OpenCV_LIBS}
+  std_msgs
 )
 install(TARGETS
   tlr_detector_node
   DESTINATION lib/${PROJECT_NAME}
-)
-
-# Add traffic_light_hsv_analyzer_node executable
-add_executable(tlr_hsv_node
-  src/tlr_hsv_node.cpp
-)
-ament_target_dependencies(tlr_hsv_node
-  rclcpp
-  sensor_msgs
-  std_msgs
-  cv_bridge
-)
-target_link_libraries(tlr_hsv_node
-  ${OpenCV_LIBS}
-)
-install(TARGETS
-  tlr_hsv_node
-  DESTINATION lib/${PROJECT_NAME}
-)
-
-# Add traffic_light_mode_changer executable
-add_executable(traffic_light_mode_changer
-  src/traffic_light_mode_changer.cpp
-)
-ament_target_dependencies(traffic_light_mode_changer
-  rclcpp
-  std_msgs
-  autoware_adapi_v1_msgs
-)
-install(TARGETS
-  traffic_light_mode_changer
-  DESTINATION lib/${PROJECT_NAME}
-)
-
-install(DIRECTORY
-  config
-  DESTINATION share/${PROJECT_NAME}
 )
 
 install(DIRECTORY launch/

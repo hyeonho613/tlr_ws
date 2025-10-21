@@ -12,7 +12,6 @@
   <depend>rclcpp</depend>
   <depend>vision_msgs</depend>
   <depend>ultralytics_ros</depend>
-  <depend>cv_bridge</depend>
   <depend>opencv</depend>
   <depend>std_msgs</depend>
   <depend>autoware_adapi_v1_msgs</depend>
